@@ -18,7 +18,63 @@ def binary_classification_metrics(prediction, ground_truth):
     # Some helpful links:
     # https://en.wikipedia.org/wiki/Precision_and_recall
     # https://en.wikipedia.org/wiki/F1_score
-    
+
+    true_pos, true_neg, folse_pos, folse_neg = 0, 0, 0, 0
+
+    for i in range(ground_truth.shape[0]):
+
+        if prediction[i] == True:
+
+            if prediction[i] == ground_truth[i]:
+
+                true_pos += 1
+
+            else:
+
+                folse_pos += 1
+
+        else:
+
+            if prediction[i] == ground_truth[i]:
+
+                true_neg += 1
+
+            else:
+
+                folse_neg += 1
+
+    if prediction.shape[0] != 0:
+
+        accuracy = (true_pos + true_neg) / prediction.shape[0]
+
+    else:
+
+        accuracy = 0
+
+    if (true_pos + folse_pos) != 0:
+
+        precision = true_pos / (true_pos + folse_pos)
+
+    else:
+
+        precision = 0
+
+    if (true_pos + folse_neg) != 0:
+
+        recall = true_pos / (true_pos + folse_neg)
+
+    else:
+
+        recall = 0
+
+    if (recall + precision) != 0:
+
+        f1 = 2 * recall * precision / (recall + precision)
+
+    else:
+
+        f1 = 0
+
     return precision, recall, f1, accuracy
 
 
@@ -34,4 +90,15 @@ def multiclass_accuracy(prediction, ground_truth):
     accuracy - ratio of accurate predictions to total samples
     '''
     # TODO: Implement computing accuracy
-    return 0
+    true = 0
+
+    for i in range(ground_truth.shape[0]):
+        if prediction[i] == ground_truth[i]:
+            true += 1
+
+    if prediction.shape[0] != 0:
+        accuracy = true / prediction.shape[0]
+    else:
+        accuracy = 0
+
+    return accuracy
